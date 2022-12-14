@@ -18,7 +18,7 @@ export default function Document() {
 
         <style
           id="stitches"
-          dangerouslySetInnerHTML={{ __html: getCssText() }}
+          dangerouslySetInnerHTML={{ __html: getCssText() }} // Para a estilização não sumir quando for desativado o JS da page
         />
       </Head>
 
