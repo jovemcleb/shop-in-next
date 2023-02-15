@@ -21,6 +21,7 @@ export default function Home() {
         spaceBetween={30}
         slidesPerGroup={1}
         loop={true}
+        navigation={true}
         loopFillGroupWithBlank={true}
         modules={[Pagination, Navigation]}
         className="mySwiper"

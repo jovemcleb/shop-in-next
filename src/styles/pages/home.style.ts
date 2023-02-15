@@ -8,6 +8,14 @@ export const HomeContainer = styled("main", {
   maxWidth: "calc(100vw - ((100vw - 1180px) / 2))",
   marginLeft: "auto",
   minHeight: 656,
+
+  '.swiper-button-prev': {
+    color: "$white",
+  },
+  '.swiper-button-next': {
+    color: "$white",
+    top:"40%",
+  }
 });
 
 export const Product = styled("a", {
