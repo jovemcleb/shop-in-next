@@ -12,8 +12,19 @@ import tShirt2 from "../assets/2.png";
 import tShirt3 from "../assets/3.png";
 import tShirt4 from "../assets/4.png";
 import tShirt5 from "../assets/5.png";
+import { stripe } from "../lib/stripe";
+import Stripe from "stripe";
 
-export default function Home() {
+type HomeProps = {
+  products: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    price: number;
+  }[];
+};
+
+export default function Home({ products }: HomeProps) {
   return (
     <HomeContainer>
       <Swiper
@@ -26,56 +37,41 @@ export default function Home() {
         modules={[Pagination, Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <Product>
-            <Image src={tShirt1} width={520} height={480} alt="Camisa 1" />
+        {products.map(({id, name, price, imageUrl}) => (
+          <SwiperSlide key={id}>
+            <Product>
+            <Image src={imageUrl} width={520} height={480} alt={name} />
             <footer>
-              <strong>Camisa Beyond</strong>
-              <span>R$ 03,00</span>
+              <strong>{name}</strong>
+              <span>{price}</span>
             </footer>
-          </Product>
-        </SwiperSlide>
-
-        <SwiperSlide>
-          <Product>
-            <Image src={tShirt2} width={520} height={480} alt="Camisa 1" />
-            <footer>
-              <strong>Camisa Beyond</strong>
-              <span>R$ 03,00</span>
-            </footer>
-          </Product>
-        </SwiperSlide>
-
-        <SwiperSlide>
-          <Product>
-            <Image src={tShirt3} width={520} height={480} alt="Camisa 1" />
-            <footer>
-              <strong>Camisa Beyond</strong>
-              <span>R$ 03,00</span>
-            </footer>
-          </Product>
-        </SwiperSlide>
-
-        <SwiperSlide>
-          <Product>
-            <Image src={tShirt4} width={520} height={480} alt="Camisa 1" />
-            <footer>
-              <strong>Camisa Beyond</strong>
-              <span>R$ 03,00</span>
-            </footer>
-          </Product>
-        </SwiperSlide>
-
-        <SwiperSlide>
-          <Product>
-            <Image src={tShirt5} width={520} height={480} alt="Camisa 1" />
-            <footer>
-              <strong>Camisa Beyond</strong>
-              <span>R$ 03,00</span>
-            </footer>
-          </Product>
-        </SwiperSlide>
+            </Product>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </HomeContainer>
   );
 }
+
+export const getServerSideProps = async () => {
+  const { data } = await stripe.products.list({
+    expand: ["data.default_price"],
+  });
+
+  const products = data.map(({ id, name, images, default_price }) => {
+    const price = default_price as Stripe.Price;
+
+    return {
+      id,
+      name,
+      imageUrl: images[0],
+      price: price.unit_amount! / 100,
+    };
+  });
+
+  return {
+    props: {
+      products,
+    },
+  };
+};

@@ -11,6 +11,7 @@ export const HomeContainer = styled("main", {
 
   '.swiper-button-prev': {
     color: "$white",
+    top:"41%",
   },
   '.swiper-button-next': {
     color: "$white",
