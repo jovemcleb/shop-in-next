@@ -25,7 +25,7 @@ export const {
       md: "1.125rem",
       lg: "1.25rem",
       xl: "1.5rem",
-      "2xk": "3rem",
+      "2xl": "3rem",
     },
   },
 });
