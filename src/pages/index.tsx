@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { GetStaticProps } from "next";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
 
@@ -37,14 +38,14 @@ export default function Home({ products }: HomeProps) {
         modules={[Pagination, Navigation]}
         className="mySwiper"
       >
-        {products.map(({id, name, price, imageUrl}) => (
+        {products.map(({ id, name, price, imageUrl }) => (
           <SwiperSlide key={id}>
             <Product>
-            <Image src={imageUrl} width={520} height={480} alt={name} />
-            <footer>
-              <strong>{name}</strong>
-              <span>{price}</span>
-            </footer>
+              <Image src={imageUrl} width={520} height={480} alt={name} />
+              <footer>
+                <strong>{name}</strong>
+                <span>{price}</span>
+              </footer>
             </Product>
           </SwiperSlide>
         ))}
@@ -53,7 +54,7 @@ export default function Home({ products }: HomeProps) {
   );
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const { data } = await stripe.products.list({
     expand: ["data.default_price"],
   });
@@ -65,7 +66,10 @@ export const getServerSideProps = async () => {
       id,
       name,
       imageUrl: images[0],
-      price: price.unit_amount! / 100,
+      price: new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(price.unit_amount! / 100),
     };
   });
 
@@ -73,5 +77,6 @@ export const getServerSideProps = async () => {
     props: {
       products,
     },
+    revalidate: 60 * 60 * 2, //2 hours
   };
 };
