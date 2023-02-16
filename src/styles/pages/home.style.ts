@@ -9,14 +9,14 @@ export const HomeContainer = styled("main", {
   marginLeft: "auto",
   minHeight: 656,
 
-  '.swiper-button-prev': {
+  ".swiper-button-prev": {
     color: "$white",
-    top:"41%",
+    top: "41%",
   },
-  '.swiper-button-next': {
+  ".swiper-button-next": {
     color: "$white",
-    top:"40%",
-  }
+    top: "40%",
+  },
 });
 
 export const Product = styled("a", {
@@ -56,6 +56,7 @@ export const Product = styled("a", {
 
     strong: {
       fontSize: "$lg",
+      color: "$gray100",
     },
 
     span: {

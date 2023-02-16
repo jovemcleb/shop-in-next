@@ -1,20 +1,17 @@
 import Image from "next/image";
+import Link from "next/link";
 import { GetStaticProps } from "next";
+import { HomeContainer, Product } from "../styles/pages/home.style";
+
+import { stripe } from "../lib/stripe";
+import Stripe from "stripe";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
 
-import { HomeContainer, Product } from "../styles/pages/home.style";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
-import tShirt1 from "../assets/1.png";
-import tShirt2 from "../assets/2.png";
-import tShirt3 from "../assets/3.png";
-import tShirt4 from "../assets/4.png";
-import tShirt5 from "../assets/5.png";
-import { stripe } from "../lib/stripe";
-import Stripe from "stripe";
 
 type HomeProps = {
   products: {
@@ -40,13 +37,15 @@ export default function Home({ products }: HomeProps) {
       >
         {products.map(({ id, name, price, imageUrl }) => (
           <SwiperSlide key={id}>
-            <Product>
-              <Image src={imageUrl} width={520} height={480} alt={name} />
-              <footer>
-                <strong>{name}</strong>
-                <span>{price}</span>
-              </footer>
-            </Product>
+            <Link href={`/product/${id}`}>
+              <Product>
+                <Image src={imageUrl} width={520} height={480} alt={name} />
+                <footer>
+                  <strong>{name}</strong>
+                  <span>{price}</span>
+                </footer>
+              </Product>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
