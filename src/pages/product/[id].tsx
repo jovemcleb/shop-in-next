@@ -11,6 +11,8 @@ import {
 import { stripe } from "../../lib/stripe";
 import Stripe from "stripe";
 
+import ProductSkeleton from "../../components/skeleton";
+
 type ProductProps = {
   product: {
     id: string;
@@ -25,7 +27,7 @@ export default function Product({ product }: ProductProps) {
   const { isFallback } = useRouter();
 
   if (isFallback) {
-    return <p>Carregando...</p>;
+    return <ProductSkeleton />;
   }
 
   return (
