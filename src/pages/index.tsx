@@ -37,7 +37,7 @@ export default function Home({ products }: HomeProps) {
       >
         {products.map(({ id, name, price, imageUrl }) => (
           <SwiperSlide key={id}>
-            <Link href={`/product/${id}`}>
+            <Link href={`/product/${id}`} prefetch={false}>
               <Product>
                 <Image src={imageUrl} width={520} height={480} alt={name} />
                 <footer>
