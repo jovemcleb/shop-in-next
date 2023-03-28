@@ -1,6 +1,8 @@
+import axios from "axios";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 import {
   ImageContainer,
@@ -25,14 +27,29 @@ type ProductProps = {
 };
 
 export default function Product({ product }: ProductProps) {
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
   const { isFallback } = useRouter();
 
   if (isFallback) {
     return <ProductSkeleton />;
   }
 
-  const handleBuyProduct = () => {
-    console.log(product.defaultPriceId);
+  const handleBuyProduct = async () => {
+    try {
+      setIsCreatingCheckoutSession(true);
+      const response = await axios.post("/api/checkout", {
+        priceId: product.defaultPriceId,
+      });
+
+      const { checkoutUrl } = response.data;
+
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      //conectar com uma ferramenta de Observabilidade (Datadog/Sentry)
+      setIsCreatingCheckoutSession(false);
+      alert("Falha ao redirecionar ao checkout!!!");
+    }
   };
 
   return (
@@ -51,7 +68,9 @@ export default function Product({ product }: ProductProps) {
         <h1>{product.name}</h1>
         <span>{product.price}</span>
         <p>{product.description}</p>
-        <button onClick={handleBuyProduct}>Comprar agora</button>
+        <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>
+          Comprar agora
+        </button>
       </ProductDetails>
     </ProductContainer>
   );
