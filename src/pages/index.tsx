@@ -12,6 +12,7 @@ import { Pagination, Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import Head from "next/head";
 
 type HomeProps = {
   products: {
@@ -24,32 +25,37 @@ type HomeProps = {
 
 export default function Home({ products }: HomeProps) {
   return (
-    <HomeContainer>
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={30}
-        slidesPerGroup={1}
-        loop={true}
-        navigation={true}
-        loopFillGroupWithBlank={true}
-        modules={[Pagination, Navigation]}
-        className="mySwiper"
-      >
-        {products.map(({ id, name, price, imageUrl }) => (
-          <SwiperSlide key={id}>
-            <Link href={`/product/${id}`} prefetch={false}>
-              <Product>
-                <Image src={imageUrl} width={520} height={480} alt={name} />
-                <footer>
-                  <strong>{name}</strong>
-                  <span>{price}</span>
-                </footer>
-              </Product>
-            </Link>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </HomeContainer>
+    <>
+      <Head>
+        <title>Home | Shop</title>
+      </Head>
+      <HomeContainer>
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={30}
+          slidesPerGroup={1}
+          loop={true}
+          navigation={true}
+          loopFillGroupWithBlank={true}
+          modules={[Pagination, Navigation]}
+          className="mySwiper"
+        >
+          {products.map(({ id, name, price, imageUrl }) => (
+            <SwiperSlide key={id}>
+              <Link href={`/product/${id}`} prefetch={false}>
+                <Product>
+                  <Image src={imageUrl} width={520} height={480} alt={name} />
+                  <footer>
+                    <strong>{name}</strong>
+                    <span>{price}</span>
+                  </footer>
+                </Product>
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </HomeContainer>
+    </>
   );
 }
 

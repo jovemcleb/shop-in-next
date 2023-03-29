@@ -14,6 +14,7 @@ import { stripe } from "../../lib/stripe";
 import Stripe from "stripe";
 
 import ProductSkeleton from "../../components/skeleton";
+import Head from "next/head";
 
 type ProductProps = {
   product: {
@@ -53,26 +54,34 @@ export default function Product({ product }: ProductProps) {
   };
 
   return (
-    <ProductContainer>
-      <ImageContainer>
-        {
-          <Image
-            src={product.imageUrl}
-            alt={product.name}
-            width={520}
-            height={480}
-          />
-        }
-      </ImageContainer>
-      <ProductDetails>
-        <h1>{product.name}</h1>
-        <span>{product.price}</span>
-        <p>{product.description}</p>
-        <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>
-          Comprar agora
-        </button>
-      </ProductDetails>
-    </ProductContainer>
+    <>
+      <Head>
+        <title> {product.name} | Shop</title>
+      </Head>
+      <ProductContainer>
+        <ImageContainer>
+          {
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              width={520}
+              height={480}
+            />
+          }
+        </ImageContainer>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span>{product.price}</span>
+          <p>{product.description}</p>
+          <button
+            disabled={isCreatingCheckoutSession}
+            onClick={handleBuyProduct}
+          >
+            Comprar agora
+          </button>
+        </ProductDetails>
+      </ProductContainer>
+    </>
   );
 }
 
