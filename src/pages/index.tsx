@@ -44,7 +44,7 @@ export default function Home({ products }: HomeProps) {
             <SwiperSlide key={id}>
               <Link href={`/product/${id}`} prefetch={false}>
                 <Product>
-                  <Image src={imageUrl} width={520} height={480} alt={name} />
+                  <Image src={imageUrl} width={520} height={480} alt={name} placeholder="blur" blurDataURL={imageUrl}/>
                   <footer>
                     <strong>{name}</strong>
                     <span>{price}</span>
