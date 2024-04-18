@@ -48,5 +48,5 @@ npm run dev
 
 5. Agora é só aproveitar o projeto:
 
-
+[Tab-1713385251791.webm](https://github.com/jovemcleb/shop-in-next/assets/60612529/a46e9f43-14f7-4b0c-b095-cd47914922a3)
 
